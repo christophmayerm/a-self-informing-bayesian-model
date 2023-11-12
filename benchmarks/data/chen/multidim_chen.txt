@@ -1,0 +1,25 @@
+[32m[INFO][0m DIM = 5
+[32m[INFO][0m num_samples = 10000
+
+------------------------------------------------------------
+
+[32m[INFO][0m Run HMC without preprocessing
+[32m[INFO][0m HMC without hypercubes took 1746.98s
+[32m[INFO][0m num_param_accept = 11000
+[32m[INFO][0m num_param_reject = 8123
+[32m[INFO][0m num_path_failure = 393
+[32m[INFO][0m Dumped chains to `multidim_chen_no_hc.txt`
+
+------------------------------------------------------------
+
+[32m[INFO][0m Run HMC with preprocessing
+[32m[INFO][0m Optimistic search took 3.24216s
+[32m[INFO][0m Found 59 maxima
+[32m[INFO][0m Found 50 hypercubes
+[32m[INFO][0m Found 2 merged hypercubes
+[32m[INFO][0m Dumped chains to `multidim_chen_hc_0.txt`
+[32m[INFO][0m Dumped chains to `multidim_chen_hc_1.txt`
+[32m[INFO][0m HMC took 1973.55s
+[32m[INFO][0m num_param_accept = 22000
+[32m[INFO][0m num_param_reject = 13741
+[32m[INFO][0m num_path_failure = 12626

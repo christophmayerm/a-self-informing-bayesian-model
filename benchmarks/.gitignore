@@ -1,0 +1,11 @@
+data/*_orig.csv
+data/harth_dataset_1000000.csv
+data/harth_dataset_2000000.csv
+process_data.ipynb
+
+data/harth_4d_dataset_*_label.csv
+data/harth_4d_dataset_1000000.csv
+data/harth_4d_dataset_2000000.csv
+
+*.zip
+harth/

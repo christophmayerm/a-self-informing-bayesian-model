@@ -1,0 +1,10 @@
+.DS_Store
+
+.vscode/
+.cache/
+
+notes.txt
+todo.md
+
+build*
+debug/

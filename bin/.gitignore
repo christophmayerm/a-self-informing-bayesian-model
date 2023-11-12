@@ -1,0 +1,9 @@
+/*
+
+!.gitignore
+!Makefile
+
+# Include only notebooks from `analysis`
+!analysis/
+analysis/*
+!analysis/*.ipynb
