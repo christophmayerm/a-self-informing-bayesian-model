@@ -1,42 +1,47 @@
 import stan
 import numpy as np
-import matplotlib.pyplot as plt
 
 schools_code = """
 data {
-    int<lower=0> J; // number of schools
-    real y[J]; // estimated treatment effects
-    real<lower=0> sigma[J]; // s.e. of effect estimates
+  int<lower=0> J;         // number of schools
+  array[J] real y;              // estimated treatment effects
+  array[J] real<lower=0> sigma; // standard error of effect estimates
 }
 parameters {
-    real mu;
-    real<lower=0> tau;
-    real eta[J];
+  real mu;                // population treatment effect
+  real<lower=0> tau;      // standard deviation in treatment effects
+  vector[J] eta;          // unscaled deviation from mu by school
 }
 transformed parameters {
-    real theta[J];
-    for (j in 1:J)
-        theta[j] <- mu + tau * eta[j];
+  vector[J] theta = mu + tau * eta;        // school treatment effects
 }
 model {
-    eta ~ normal(0, 1);
-    y ~ normal(theta, sigma);
+  target += normal_lpdf(eta | 0, 1);       // prior log-density
+  target += normal_lpdf(y | theta, sigma); // log-likelihood
 }
 """
 
-schools_dat = {'J': 8,
-               'y': [28,  8, -3,  7, -1,  1, 18, 12],
-               'sigma': [15, 10, 16, 11,  9, 11, 10, 18]}
+schools_data = {"J": 8,
+                "y": [28,  8, -3,  7, -1,  1, 18, 12],
+                "sigma": [15, 10, 16, 11,  9, 11, 10, 18]}
 
-fit = stan.build(model_code=schools_code, data=schools_dat,
-                  iter=1000, chains=4)
 
-print(fit)
+# Build the model
+model = stan.build(schools_code, data=schools_data, random_seed=1)
 
-eta = fit.extract(permuted=True)['eta']
-np.mean(eta, axis=0)
+# Assuming `model` is the compiled Stan model
+# and `param` is a dictionary of your parameters:
+param = {
+    "mu": 0,    # Example value for mu
+    "tau": 1,   # Example value for tau
+    "eta": [0, 0, 0, 0, 0, 0, 0, 0]  # Example values for eta
+}
 
-# if matplotlib is installed (optional, not required), a visual summary and
-# traceplot are available
-fit.plot()
-plt.show()
+# Convert your parameter dictionary to a list in the order expected by your model
+# For simplicity, this example assumes eta is already a list. Adjust as necessary.
+param_list = [param["mu"], param["tau"]] + param["eta"]
+
+# Compute the gradient
+gradient = model.grad_log_prob(param_list)
+
+print("Gradient:", gradient)
